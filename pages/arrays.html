@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arrays — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="arrays">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 1</div>
+    <h1>Arrays &amp; Inserting Elements</h1>
+    <p class="lede">
+      An array is a fixed-size row of boxes, each holding one value, numbered from
+      index <code>0</code>. "Inserting" into the middle isn't magic — every element
+      after the insertion point has to physically shift over to make room.
+    </p>
+    <div class="callout warn">
+      <strong>Key fact:</strong> an array's size is fixed the moment it's created with
+      <code>new</code> — there's no method that makes it bigger. To "insert" a value, you
+      create a brand new array one slot larger, copy the old values across, and drop the new
+      value into the right place. That's exactly what you're about to watch happen.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Inserting by building a bigger array</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="array-stage"></div>
+              <div class="legend">
+                <span><i class="compare"></i> comparing / shifting index</span>
+                <span><i class="shift"></i> value just moved</span>
+                <span><i class="inserted"></i> newly inserted</span>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">Insert at index
+                <input type="number" id="insert-index" value="2" min="0" max="5" />
+              </label>
+              <label class="field">Value
+                <input type="number" id="insert-value" value="99" />
+              </label>
+              <button class="btn primary" id="step-btn">Step ▸</button>
+              <button class="btn" id="play-btn">▶ Play</button>
+              <button class="btn" id="reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="status"></div>
+          </div>
+          <div class="aside">
+            <div id="code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout">
+      <strong>Shortcut:</strong> C# actually has a built-in method for exactly this
+      "make a bigger array and copy everything over" pattern:
+      <code>Array.Resize(ref numbers, numbers.Length + 1);</code> does the copy for you.
+      It's still just an array underneath — no new insert logic, just less typing.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>Removing an element (shift left)</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          Removal is the mirror image of inserting: everything after the removed spot
+          shifts one step to the <em>left</em>. The array still can't shrink, so the last
+          slot is left holding a leftover/default value.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="remove-stage"></div>
+              <div class="legend">
+                <span><i class="compare"></i> comparing / shifting index</span>
+                <span><i class="shift"></i> value just moved</span>
+                <span><i class="notfound"></i> now unused</span>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">Remove at index
+                <input type="number" id="remove-index" value="2" min="0" max="4" />
+              </label>
+              <button class="btn primary" id="remove-step-btn">Step ▸</button>
+              <button class="btn" id="remove-play-btn">▶ Play</button>
+              <button class="btn" id="remove-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="remove-status"></div>
+          </div>
+          <div class="aside">
+            <div id="remove-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>A few built-in array helpers</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          You won't need to hand-write every loop — the <code>Array</code> type (the thing
+          <code>int[]</code> actually is under the hood) ships with a few ready-made helpers.
+          Pick one and see what it does to the same starting array.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage" style="flex-direction:column; gap:10px;">
+              <div class="array-row" id="method-before"></div>
+              <div class="flow-arrow">↓</div>
+              <div id="method-result"></div>
+            </div>
+            <div class="controls">
+              <label class="field">Method
+                <select id="method-select" style="padding:7px 8px; border-radius:7px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:var(--font-mono);">
+                  <option value="indexof">Array.IndexOf(numbers, 8)</option>
+                  <option value="sort-asc">Array.Sort(numbers) — ascending</option>
+                  <option value="sort-desc">Sort + Reverse — descending</option>
+                  <option value="reverse">Array.Reverse(numbers)</option>
+                  <option value="length">numbers.Length</option>
+                </select>
+              </label>
+              <button class="btn primary" id="method-run-btn">Run ▸</button>
+            </div>
+            <div class="status-line" id="method-status"></div>
+          </div>
+          <div class="aside">
+            <div id="method-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>Indexing starts at 0.</strong> The first element is <code>array[0]</code>, not <code>array[1]</code>.</li>
+            <li><strong>Fixed-size arrays</strong> (<code>int[] nums = new int[5];</code>) have their size baked in the moment you create them with <code>new</code> — they're fast and memory-efficient precisely because that size never changes.</li>
+            <li><strong>Both inserting and removing</strong> mean shifting every element on one side of the change — that's an O(n) operation, not instant, no matter which direction you shift.</li>
+            <li><strong><code>Array.Sort</code> and <code>Array.Reverse</code> mutate in place</strong> — they change the array you pass in rather than returning a new one, unlike a method such as <code>Substring</code> on a string.</li>
+            <li><strong><code>Array.Sort</code> only sorts ascending</strong> — there's no built-in "descending" option. The standard trick is <code>Array.Sort(numbers); Array.Reverse(numbers);</code> — sort it the normal way, then flip it.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="../index.html">← Home</a>
+    <a href="arrays-2d.html">Next: 2D Arrays →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/arrays.js"></script>
+</body>
+</html>

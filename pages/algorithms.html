@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Array Algorithms — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="algorithms">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 9</div>
+    <h1>Array Algorithms</h1>
+    <p class="lede">
+      Four things you'll be asked to do with an array over and over: find the biggest or
+      smallest value, count how many values fit some rule, and put everything in order.
+      Every one of them is just a loop with a little bit of bookkeeping in a variable.
+    </p>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Finding the maximum and minimum</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          The trick: assume the <strong>first</strong> element is the best one so far, then
+          check every other element — only replace your answer when you find something better.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="mm-stage"></div>
+              <div class="flow-diagram" style="margin-top:8px;">
+                <div class="flow-box" id="mm-best-box">best = ?</div>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">Find
+                <select id="mm-mode" style="padding:7px 8px; border-radius:7px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:var(--font-mono);">
+                  <option value="max">Maximum</option>
+                  <option value="min">Minimum</option>
+                </select>
+              </label>
+              <button class="btn primary" id="mm-step-btn">Step ▸</button>
+              <button class="btn" id="mm-play-btn">▶ Play</button>
+              <button class="btn" id="mm-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="mm-status"></div>
+          </div>
+          <div class="aside">
+            <div id="mm-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>Counting how many values match a rule</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          Same shape as summing, but the accumulator only moves when a condition is true.
+          This exact pattern works for "count the evens", "count how many passed", "count
+          how many equal a target value" — swap out the <code>if</code> condition and it's
+          the same loop.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="count-stage"></div>
+              <div class="flow-diagram" style="margin-top:8px;">
+                <div class="flow-box" id="count-box">count = 0</div>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">Count values &gt;
+                <input type="number" id="count-threshold" value="7" />
+              </label>
+              <button class="btn primary" id="count-step-btn">Step ▸</button>
+              <button class="btn" id="count-play-btn">▶ Play</button>
+              <button class="btn" id="count-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="count-status"></div>
+          </div>
+          <div class="aside">
+            <div id="count-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>Sorting: Bubble Sort</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          Walk through the array comparing each pair of <strong>neighbors</strong>; if
+          they're in the wrong order, swap them. One full pass pushes the largest remaining
+          value all the way to the end — repeat until nothing is left to sort.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="sort-stage"></div>
+              <div class="legend">
+                <span><i class="compare"></i> comparing this pair</span>
+                <span><i class="shift"></i> just swapped</span>
+                <span><i class="found"></i> locked into final position</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="sort-step-btn">Step ▸</button>
+              <button class="btn" id="sort-play-btn">▶ Play</button>
+              <button class="btn" id="sort-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="sort-status"></div>
+          </div>
+          <div class="aside">
+            <div id="sort-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout">
+      <strong>In real code:</strong> you'd almost never hand-write bubble sort — you'd call
+      <code>Array.Sort(numbers);</code> from <a href="arrays.html">Lesson 1</a> and let it
+      pick a fast algorithm for you. Bubble sort is worth learning once anyway: it's the
+      simplest possible sort to trace by hand, and "compare neighbors, swap if needed" shows
+      up inside faster sorts too.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>"Best so far" pattern:</strong> max/min both start by assuming the first element is the answer — starting at 0 (like a sum) would give the wrong answer for an array of all-negative numbers.</li>
+            <li><strong>Counting vs. summing:</strong> summing adds the <em>value</em> every lap; counting adds <strong>1</strong> only when a condition is true. Mixing these up is a very common beginner bug.</li>
+            <li><strong>Bubble sort is O(n²):</strong> for 6 elements that's up to 15 comparisons; for 1,000 elements it's about 500,000 — which is exactly why real code reaches for <code>Array.Sort</code> instead.</li>
+            <li>After bubble sort's <em>k</em>-th full pass, the last <em>k</em> elements are guaranteed to be in their final sorted position — that's why each pass can stop one element earlier than the last.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="array-io.html">← Reading &amp; Printing Arrays</a>
+    <a href="../index.html">Back to Home →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/algorithms.js"></script>
+</body>
+</html>

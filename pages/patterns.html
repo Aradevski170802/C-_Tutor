@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Practice Patterns — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="patterns">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 7</div>
+    <h1>Practice Patterns</h1>
+    <p class="lede">
+      These are the exercises almost every C# beginner is asked to write at some point —
+      not because the output matters, but because writing them forces you to actually
+      think in loops, conditions, and accumulation. Once these feel easy, loops in general
+      will too.
+    </p>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Sum of 1 to N</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          A running total, updated once per lap of the loop. This exact shape — a variable
+          started at 0 before the loop, updated inside the loop — shows up constantly:
+          totals, counts, averages, products.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="sum-stage"></div>
+              <div class="flow-diagram" style="margin-top:8px;">
+                <div class="flow-box" id="sum-total-box">sum = 0</div>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">N
+                <input type="number" id="sum-n" value="5" min="1" max="8" />
+              </label>
+              <button class="btn primary" id="sum-step-btn">Step ▸</button>
+              <button class="btn" id="sum-play-btn">▶ Play</button>
+              <button class="btn" id="sum-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="sum-status"></div>
+          </div>
+          <div class="aside">
+            <div id="sum-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout">
+      <strong>Shortcut:</strong> the sum of 1 to N also has a direct formula,
+      <code>n * (n + 1) / 2</code> — no loop needed. It's a good example of why it always
+      pays to ask "is there a smarter way?" once the loop version works.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>FizzBuzz</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          For every number from 1 to N: print <strong>"Fizz"</strong> if it divides evenly by 3,
+          <strong>"Buzz"</strong> if it divides evenly by 5, <strong>"FizzBuzz"</strong> if it
+          divides evenly by both — and the number itself otherwise. It's really just an
+          <code>if</code> / <code>else if</code> chain running inside a loop.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="fizzbuzz-stage"></div>
+              <div id="fizzbuzz-console" class="console-output"></div>
+            </div>
+            <div class="controls">
+              <label class="field">Up to
+                <input type="number" id="fizzbuzz-n" value="15" min="1" max="20" />
+              </label>
+              <button class="btn primary" id="fizzbuzz-step-btn">Step ▸</button>
+              <button class="btn" id="fizzbuzz-play-btn">▶ Play</button>
+              <button class="btn" id="fizzbuzz-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="fizzbuzz-status"></div>
+          </div>
+          <div class="aside">
+            <div id="fizzbuzz-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>Print a triangle of stars</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          A classic nested-loop exercise: the <strong>outer</strong> loop picks which row
+          you're on, the <strong>inner</strong> loop prints that many stars before moving to
+          a new line. Row 1 prints one star, row 2 prints two, and so on.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div id="triangle-console" class="console-output" style="max-width:220px;"></div>
+            </div>
+            <div class="controls">
+              <label class="field">Rows
+                <input type="number" id="triangle-n" value="5" min="1" max="8" />
+              </label>
+              <button class="btn primary" id="triangle-step-btn">Step ▸</button>
+              <button class="btn" id="triangle-play-btn">▶ Play</button>
+              <button class="btn" id="triangle-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="triangle-status"></div>
+          </div>
+          <div class="aside">
+            <div id="triangle-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>Accumulator pattern:</strong> a variable set up before a loop and updated inside it is the basis of almost every "total", "count", or "build a result" piece of code you'll ever write.</li>
+            <li><strong>FizzBuzz</strong> is famous as a quick interview screen precisely because it needs a loop and a small chain of conditions used correctly together — nothing more, nothing less.</li>
+            <li><strong>Nested loops for shapes</strong> (triangles, grids, checkerboards) are the same skill as nested loops over a 2D array — the outer loop is the row, the inner loop is what happens within that row.</li>
+            <li>Try changing N and stepping through by hand before hitting Play — predicting the next line is the whole point of the exercise.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="functions.html">← Methods</a>
+    <a href="array-io.html">Next: Reading &amp; Printing Arrays →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/patterns.js"></script>
+</body>
+</html>

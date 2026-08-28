@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reading &amp; Printing Arrays — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="array-io">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 8</div>
+    <h1>Reading &amp; Printing Arrays</h1>
+    <p class="lede">
+      Two things you'll do with almost every array you ever write: get values <em>into</em>
+      it from input, and get values <em>out</em> of it to show the user what happened. Neither
+      one needs anything beyond a <code>for</code> loop and the basic types you already know.
+    </p>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Reading a whole array from one line</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          Calling <code>Console.ReadLine()</code> five separate times to fill five slots
+          works, but it's slow to type and easy to mess up. Instead, let the user type every
+          value on <strong>one line</strong>, separated by spaces, and split it apart in code.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage" style="flex-direction:column; gap:14px;">
+              <div id="io-input-console" class="console-output" style="max-width:460px;"></div>
+              <div>
+                <div style="text-align:center; color:var(--text-muted); font-size:0.78rem; margin-bottom:4px;">string[] parts</div>
+                <div class="array-row" id="io-parts-stage"></div>
+              </div>
+              <div>
+                <div style="text-align:center; color:var(--text-muted); font-size:0.78rem; margin-bottom:4px;">int[] numbers</div>
+                <div class="array-row" id="io-numbers-stage"></div>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="io-step-btn">Step ▸</button>
+              <button class="btn" id="io-play-btn">▶ Play</button>
+              <button class="btn" id="io-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="io-status"></div>
+          </div>
+          <div class="aside">
+            <div id="io-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout warn">
+      <strong>Watch out:</strong> <code>int.Parse()</code> crashes with a
+      <code>FormatException</code> if the text isn't actually a valid number — extra spaces,
+      a stray letter, anything. <code>int.TryParse()</code> is the safer version: it returns
+      <code>true</code>/<code>false</code> instead of crashing, which is worth switching to
+      once you're comfortable with <code>bool</code>.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>Printing every element of an array</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          <code>Console.Write</code> prints without moving to a new line — perfect for
+          building up one line of output element by element inside a loop.
+          <code>Console.WriteLine</code> (with no arguments) moves to a new line once you're done.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="print-stage"></div>
+              <div id="print-console" class="console-output" style="max-width:340px; margin-top:12px;"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="print-step-btn">Step ▸</button>
+              <button class="btn" id="print-play-btn">▶ Play</button>
+              <button class="btn" id="print-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="print-status"></div>
+          </div>
+          <div class="aside">
+            <div id="print-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>Printing a matrix (2D array)</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          The same idea, nested: the inner loop writes one row using
+          <code>Console.Write</code>, and <code>Console.WriteLine()</code> only runs once the
+          whole row is done — that's what moves the output down to the next line.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="print2d-stage"></div>
+              <div id="print2d-console" class="console-output" style="max-width:200px; margin-top:12px;"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="print2d-step-btn">Step ▸</button>
+              <button class="btn" id="print2d-play-btn">▶ Play</button>
+              <button class="btn" id="print2d-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="print2d-status"></div>
+          </div>
+          <div class="aside">
+            <div id="print2d-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>Split(' ')</strong> cuts a string apart wherever it finds a space, handing back a <code>string[]</code> — every value still needs converting with <code>int.Parse</code> before you can do math with it.</li>
+            <li><strong>Write vs. WriteLine:</strong> mixing them up is how you get output that's either all jammed onto one line, or has a stray blank line after every single value.</li>
+            <li>A <code>"\t"</code> (tab) between values, like in the matrix example, keeps columns roughly aligned even when the numbers have different widths.</li>
+            <li>Reading and printing aren't graded on style, but readable output makes it far easier to spot a bug in whatever the rest of your program computed.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="patterns.html">← Practice Patterns</a>
+    <a href="algorithms.html">Next: Array Algorithms →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/array-io.js"></script>
+</body>
+</html>

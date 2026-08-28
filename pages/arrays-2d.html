@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2D Arrays — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="arrays-2d">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 2</div>
+    <h1>2D Arrays</h1>
+    <p class="lede">
+      A 2D array is a grid: rows and columns, addressed as <code>grid[row, col]</code>.
+      Think of a spreadsheet, a chessboard, or a seating chart — anything laid out in rows
+      and columns is a natural fit. Like a normal array, a rectangular 2D array
+      (<code>int[,]</code>) has a fixed size in both directions — you can overwrite a cell,
+      but you can't "grow" the grid itself.
+    </p>
+    <p class="lede" style="margin-top:14px;">
+      Before touching cells, a 2D array needs to tell you its own shape. <code>GetLength(0)</code>
+      is the number of <strong>rows</strong>, <code>GetLength(1)</code> is the number of
+      <strong>columns</strong> — get that order backwards and you'll loop off the end of the
+      array or miss entire rows without any error message warning you.
+    </p>
+    <p class="lede" style="margin-top:14px;">
+      This lesson works through the full lifecycle of a grid: creating and filling one,
+      measuring it, writing into a specific cell, running totals across it, and the two
+      situations where a grid's fixed shape actually gets in your way.
+    </p>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Declaring and filling a grid</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          <code>new int[3, 4]</code> reserves a 3-row, 4-column grid where every cell starts
+          at <code>0</code> — exactly like <code>new int[5]</code> gives you five zeros for a
+          1D array. A nested loop is the standard way to fill it: the outer loop walks the
+          rows, the inner loop walks the columns of whichever row it's on.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="fill-stage"></div>
+              <div class="flow-diagram" style="margin-top:8px;">
+                <div class="flow-box" id="fill-value-box">value = 1</div>
+              </div>
+              <div class="legend">
+                <span><i class="current"></i> writing here now</span>
+                <span><i class="found"></i> already filled</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="fill-step-btn">Step ▸</button>
+              <button class="btn" id="fill-play-btn">▶ Play</button>
+              <button class="btn" id="fill-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="fill-status"></div>
+          </div>
+          <div class="aside">
+            <div id="fill-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout">
+      <strong>Shortcut:</strong> if you already know the values, skip the loop entirely with
+      an initializer list — one row per set of braces:
+      <code>int[,] grid = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } };</code>
+      That's the exact same grid the animation above just built by hand, written on one line.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>Measuring the grid: GetLength(0) and GetLength(1)</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          <code>GetLength(0)</code> counts how many rows there are by counting downward.
+          <code>GetLength(1)</code> counts how many columns there are by counting across
+          the first row. Watch the sweep for each one below.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="getlength-stage"></div>
+              <div class="flow-diagram" id="getlength-result" style="margin-top:10px;"></div>
+              <div class="legend">
+                <span><i class="compare"></i> being counted</span>
+                <span><i class="found"></i> counted</span>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="getlength-step-btn">Step ▸</button>
+              <button class="btn" id="getlength-play-btn">▶ Play</button>
+              <button class="btn" id="getlength-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="getlength-status"></div>
+          </div>
+          <div class="aside">
+            <div id="getlength-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout warn">
+      <strong>Jagged arrays are different:</strong> a jagged array (<code>int[][] grid = new int[3][];</code>)
+      is really an array of separate arrays, so it has no single "column count" — use
+      <code>grid.Length</code> for the number of rows, and <code>grid[i].Length</code> for the
+      length of row <code>i</code> specifically, since each row is free to be a different size.
+      There's a full example of this near the bottom of the page.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>Writing into a cell: grid[row, col] = value</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="grid-stage"></div>
+              <div class="legend">
+                <span><i class="compare"></i> row / column being scanned</span>
+                <span><i class="inserted"></i> target cell updated</span>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">Row
+                <input type="number" id="grid-row" value="1" min="0" max="2" />
+              </label>
+              <label class="field">Col
+                <input type="number" id="grid-col" value="2" min="0" max="4" />
+              </label>
+              <label class="field">Value
+                <input type="number" id="grid-value" value="99" />
+              </label>
+              <button class="btn primary" id="grid-step-btn">Step ▸</button>
+              <button class="btn" id="grid-play-btn">▶ Play</button>
+              <button class="btn" id="grid-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="grid-status"></div>
+          </div>
+          <div class="aside">
+            <div id="grid-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">4</span>Row totals with a nested loop</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          A very common real task: reduce each row down to a single number. The inner loop
+          sums one row at a time into a fresh <code>sum</code>; the outer loop drops that
+          total into its own 1D results array before moving to the next row.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="rowsum-stage"></div>
+              <div class="flow-diagram" style="margin-top:8px;">
+                <div class="flow-box" id="rowsum-sum-box">sum = 0</div>
+              </div>
+              <div style="text-align:center; color:var(--text-muted); font-size:0.78rem; margin:10px 0 4px;">int[] rowTotals</div>
+              <div class="array-row" id="rowsum-totals-stage"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="rowsum-step-btn">Step ▸</button>
+              <button class="btn" id="rowsum-play-btn">▶ Play</button>
+              <button class="btn" id="rowsum-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="rowsum-status"></div>
+          </div>
+          <div class="aside">
+            <div id="rowsum-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout">
+      <strong>What about inserting a new element, with a shift?</strong> A row of a 2D array
+      is just as fixed-length as the grid itself, so it behaves exactly like the removal
+      you'd do on a plain 1D array: shift the values within that row, and the last value in
+      the row gets overwritten — there's no room to grow into.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">5</span>Shifting values within a single row</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          Pull row 1 out on its own and insert a value into it in place — the row stays the
+          same length, so whatever was in the last column gets pushed out.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="row-stage"></div>
+              <div class="legend">
+                <span><i class="compare"></i> comparing / shifting index</span>
+                <span><i class="shift"></i> value just moved</span>
+                <span><i class="inserted"></i> newly inserted</span>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="field">Insert at column
+                <input type="number" id="row-index" value="2" min="0" max="4" />
+              </label>
+              <label class="field">Value
+                <input type="number" id="row-value" value="77" />
+              </label>
+              <button class="btn primary" id="row-step-btn">Step ▸</button>
+              <button class="btn" id="row-play-btn">▶ Play</button>
+              <button class="btn" id="row-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="row-status"></div>
+          </div>
+          <div class="aside">
+            <div id="row-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">6</span>Jagged arrays: rows with different lengths</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          Sometimes rows genuinely aren't the same length — Pascal's triangle below is a
+          classic example: row 0 has 1 number, row 1 has 2, row 2 has 3, and so on. A
+          rectangular <code>int[,]</code> can't represent that without wasting space on
+          empty cells, so this calls for a jagged array: <code>int[][]</code>, an array
+          where each element is its own separate, independently-sized array.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="jagged-stage"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="jagged-step-btn">Step ▸</button>
+              <button class="btn" id="jagged-play-btn">▶ Play</button>
+              <button class="btn" id="jagged-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="jagged-status"></div>
+            <div class="controls" style="margin-top:14px;">
+              <label class="field">Check the length of row
+                <input type="number" id="jagged-row-check" value="3" min="0" max="3" />
+              </label>
+            </div>
+            <div class="status-line" id="jagged-length-status"></div>
+          </div>
+          <div class="aside">
+            <div id="jagged-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>Rectangular array</strong> <code>int[,] grid = new int[3, 5];</code> — one block of memory, every row the same length. Good for grids, boards, and images.</li>
+            <li><strong>Jagged array</strong> <code>int[][] grid = new int[3][];</code> — an array of arrays, where each row can be a different length. Good for triangles, adjacency lists, or any data that isn't naturally rectangular.</li>
+            <li><strong>Access order:</strong> <code>grid[row, col]</code> — row first, then column. Mixing them up is a very common beginner bug, especially on non-square grids where the mistake doesn't crash, it just silently reads the wrong cell.</li>
+            <li><strong>Nested loops mirror the grid:</strong> the outer loop's variable is almost always the row, the inner loop's variable is almost always the column — keeping that convention makes someone else's grid code much easier to read.</li>
+            <li>If you truly need a row to grow, you're back to the same trick as Lesson 1: build a new, longer array for that row and copy the old values across.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="arrays.html">← Arrays</a>
+    <a href="searching.html">Next: Searching →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/arrays-2d.js"></script>
+</body>
+</html>

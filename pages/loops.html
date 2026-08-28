@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Loops: for, while, do-while — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="loops">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 4</div>
+    <h1>Loops: for, while, and do-while</h1>
+    <p class="lede">
+      A <code>for</code> loop has three parts: a starting point, a condition checked before
+      every lap, and a step that runs after every lap. Watch the counter <code>i</code> walk
+      across the array while the loop body runs once per element.
+    </p>
+    <p class="lede" style="margin-top:14px;">
+      <code>while</code> and <code>do-while</code> can do the exact same job as a
+      <code>for</code> loop — they're just written differently, and one of them has a
+      genuinely different rule for when the body runs at all. All three appear further down
+      this page, doing the same sum, so you can compare them directly.
+    </p>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Summing an array with a for loop</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="loop-stage"></div>
+              <div class="flow-diagram" id="loop-flow" style="margin-top:6px;"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="loop-step-btn">Step ▸</button>
+              <button class="btn" id="loop-play-btn">▶ Play</button>
+              <button class="btn" id="loop-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="loop-status"></div>
+          </div>
+          <div class="aside">
+            <div id="loop-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="callout">
+      <strong>for vs. foreach vs. while vs. do-while:</strong> use <code>for</code> when you
+      need the index itself (or want to skip/step in a custom way); use
+      <code>foreach (var x in items)</code> when you just need each value, in order, and
+      don't care about the index; use <code>while</code> when the number of laps isn't known
+      ahead of time; use <code>do-while</code> when the body needs to run at least once no
+      matter what.
+    </div>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>The same sum, with a while loop</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          A <code>while</code> loop is a <code>for</code> loop with its three parts split
+          apart: the counter is set up <em>before</em> the loop, the condition is the only
+          thing in the parentheses, and the step happens as the last line inside the body.
+          Same numbers, same result — just arranged differently.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="array-row" id="while-stage"></div>
+              <div class="flow-diagram" id="while-flow" style="margin-top:6px;"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="while-step-btn">Step ▸</button>
+              <button class="btn" id="while-play-btn">▶ Play</button>
+              <button class="btn" id="while-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="while-status"></div>
+          </div>
+          <div class="aside">
+            <div id="while-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>do-while: the body always runs at least once</h2>
+        <p style="color:var(--text-muted); margin-top:-6px;">
+          The one real difference: a <code>while</code> loop checks its condition
+          <strong>before</strong> the first lap, so it can skip the body entirely. A
+          <code>do-while</code> loop checks <strong>after</strong> the first lap, so the body
+          always runs at least once — even if the condition was already false to begin with.
+          Try setting the start value to <code>3</code> or higher below.
+        </p>
+        <div class="viz-layout">
+          <div>
+            <div class="stage" style="flex-direction:column; gap:12px;">
+              <div id="dowhile-console" class="console-output" style="max-width:260px;"></div>
+            </div>
+            <div class="controls">
+              <label class="field">n starts at
+                <input type="number" id="dowhile-start" value="5" min="-5" max="6" />
+              </label>
+              <button class="btn primary" id="dowhile-step-btn">Step ▸</button>
+              <button class="btn" id="dowhile-play-btn">▶ Play</button>
+              <button class="btn" id="dowhile-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="dowhile-status"></div>
+          </div>
+          <div class="aside">
+            <div id="dowhile-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">4</span>Nested for loops: walking a 2D array</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="grid-2d" id="nested-grid-stage"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="nested-step-btn">Step ▸</button>
+              <button class="btn" id="nested-play-btn">▶ Play</button>
+              <button class="btn" id="nested-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="nested-status"></div>
+          </div>
+          <div class="aside">
+            <div id="nested-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>Off-by-one errors</strong> are the classic loop bug — using <code>&lt;=</code> instead of <code>&lt;</code> reads one element past the end of the array.</li>
+            <li>The <strong>outer loop</strong> in a nested loop picks the row; the <strong>inner loop</strong> finishes completely before the outer loop advances to the next row.</li>
+            <li>A nested loop over an <code>n × m</code> grid runs the inner body <code>n × m</code> times — costs add up fast with more rows/columns.</li>
+            <li><strong>Forgetting the step</strong> (<code>i++</code>) inside a <code>while</code> loop is a classic beginner bug — the condition never changes, and the loop runs forever.</li>
+            <li><strong>do-while needs a semicolon</strong> after the closing <code>while (...)</code> — it's the only loop in C# that ends with one.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="searching.html">← Searching</a>
+    <a href="strings.html">Next: Strings →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/loops.js"></script>
+</body>
+</html>

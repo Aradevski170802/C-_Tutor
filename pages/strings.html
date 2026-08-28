@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Strings — C# Visual Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%23</text></svg>" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body data-page="strings">
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="../index.html"><span class="brand-mark">C#</span>Visual Guide</a>
+    <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation">☰</button>
+    <div class="nav-links" data-nav-links>
+      <a href="../index.html" data-page="home">Home</a>
+      <a href="arrays.html" data-page="arrays">Arrays</a>
+      <a href="arrays-2d.html" data-page="arrays-2d">2D Arrays</a>
+      <a href="searching.html" data-page="searching">Searching</a>
+      <a href="loops.html" data-page="loops">Loops</a>
+      <a href="strings.html" data-page="strings">Strings</a>
+      <a href="functions.html" data-page="functions">Methods</a>
+      <a href="patterns.html" data-page="patterns">Patterns</a>
+      <a href="array-io.html" data-page="array-io">Read/Print</a>
+      <a href="algorithms.html" data-page="algorithms">Algorithms</a>
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-header container">
+    <div class="eyebrow">Lesson 5</div>
+    <h1>Strings</h1>
+    <p class="lede">
+      A C# <code>string</code> behaves a lot like a read-only array of characters — you can
+      index into it and loop over it — but with one crucial difference: strings are
+      <strong>immutable</strong>. No method ever changes a string in place; every one of
+      them hands you back a brand new string.
+    </p>
+  </div>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">1</span>Indexing and looping over characters</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage">
+              <div class="string-row" id="string-stage"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="string-step-btn">Step ▸</button>
+              <button class="btn" id="string-play-btn">▶ Play</button>
+              <button class="btn" id="string-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="string-status"></div>
+          </div>
+          <div class="aside">
+            <div id="string-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">2</span>Immutability: every change makes a new string</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage" style="flex-direction:column;">
+              <div id="immutable-stage" style="display:flex; flex-direction:column; gap:18px; align-items:center; width:100%;"></div>
+            </div>
+            <div class="controls">
+              <button class="btn primary" id="immutable-step-btn">Step ▸</button>
+              <button class="btn" id="immutable-play-btn">▶ Play</button>
+              <button class="btn" id="immutable-reset-btn">↺ Reset</button>
+            </div>
+            <div class="status-line" id="immutable-status"></div>
+          </div>
+          <div class="aside">
+            <div id="immutable-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2><span class="step-num">3</span>Try common string methods</h2>
+        <div class="viz-layout">
+          <div>
+            <div class="stage" style="flex-direction:column; gap:10px;">
+              <div class="string-row" id="method-before"></div>
+              <div class="flow-arrow">↓</div>
+              <div class="string-row" id="method-after"></div>
+            </div>
+            <div class="controls">
+              <label class="field">Method
+                <select id="method-select" style="padding:7px 8px; border-radius:7px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:var(--font-mono);">
+                  <option value="upper">ToUpper()</option>
+                  <option value="lower">ToLower()</option>
+                  <option value="substr">Substring(0, 5)</option>
+                  <option value="replace">Replace("World", "C#")</option>
+                  <option value="trim">Trim()</option>
+                  <option value="split">Split(' ')</option>
+                  <option value="indexof">IndexOf("World")</option>
+                  <option value="startswith">StartsWith("Hello")</option>
+                  <option value="contains">Contains("lo W")</option>
+                  <option value="length">Length</option>
+                </select>
+              </label>
+              <button class="btn primary" id="method-run-btn">Run ▸</button>
+            </div>
+            <div class="status-line" id="method-status"></div>
+          </div>
+          <div class="aside">
+            <div id="method-code" class="code-block"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="container">
+      <div class="panel-inner">
+        <h2>Why this matters</h2>
+        <div class="aside">
+          <ul>
+            <li><strong>Immutability</strong> means <code>str.ToUpper();</code> on its own line does nothing useful — you must capture the return value: <code>str = str.ToUpper();</code></li>
+            <li><code>foreach (char c in text)</code> is the simplest way to visit every character in order.</li>
+            <li><code>StringBuilder</code> exists specifically for building up a string piece by piece efficiently, without creating a new string on every single change.</li>
+            <li><code>string.Length</code> gives the character count — valid indexes run from <code>0</code> to <code>Length - 1</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="container">
+  <div class="prev-next">
+    <a href="loops.html">← For Loops</a>
+    <a href="functions.html">Next: Methods →</a>
+  </div>
+</div>
+
+<footer class="site-footer">Built as a study aid for learning C# fundamentals.</footer>
+
+<script src="../js/viz-core.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/pages/strings.js"></script>
+</body>
+</html>
