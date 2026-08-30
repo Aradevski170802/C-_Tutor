@@ -630,6 +630,38 @@ section.panel {
 .char-cell.found { border-color: var(--green); background: color-mix(in srgb, var(--green) 18%, var(--bg-elevated)); }
 .char-cell.inserted { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--bg-elevated)); animation: pop-in 0.35s ease; }
 
+/* ---------- Code editor ---------- */
+
+.code-editor {
+  width: 100%;
+  min-height: 260px;
+  resize: vertical;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  tab-size: 4;
+}
+
+.code-editor:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+kbd {
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+}
+
 /* ---------- Console output ---------- */
 
 .console-output {
