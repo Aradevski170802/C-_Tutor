@@ -86,12 +86,17 @@ class Program
       `Exercise: ${exercise || '(not specified)'}\n\n` +
       `--- Code ---\n\n${code}`;
 
-    const mailtoUrl =
-      `mailto:${encodeURIComponent(TEACHER_EMAIL)}` +
-      `?subject=${encodeURIComponent(subject)}` +
+    const gmailUrl =
+      `https://mail.google.com/mail/?view=cm&fs=1` +
+      `&to=${encodeURIComponent(TEACHER_EMAIL)}` +
+      `&su=${encodeURIComponent(subject)}` +
       `&body=${encodeURIComponent(body)}`;
 
-    window.location.href = mailtoUrl;
-    setStatus(submitStatusEl, 'Opening your email app with everything filled in — just hit send there.', 'ok');
+    window.open(gmailUrl, '_blank', 'noopener');
+    setStatus(
+      submitStatusEl,
+      'Opening Gmail with everything filled in — sign in if it asks, then just hit send.',
+      'ok'
+    );
   });
 });
